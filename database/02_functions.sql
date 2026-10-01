@@ -28,7 +28,6 @@ BEGIN
   RETURN LEAST(100, COALESCE(v_src,0) + v_status + v_act + v_profile + v_value);
 END $$;
 
--- 2) Customer balance = invoiced (sent/partial/paid/overdue) - successful payments
 CREATE FUNCTION get_customer_balance(p_customer_id bigint) RETURNS numeric
 LANGUAGE sql STABLE AS $$
   SELECT COALESCE((SELECT SUM(total_amount) FROM invoices
