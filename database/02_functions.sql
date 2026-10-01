@@ -1,4 +1,3 @@
--- =====================================================================
 -- CRM  |  02_functions.sql  |  Business logic in PostgreSQL
 -- (create_invoice_number() lives in 01_schema.sql because a table default uses it)
 -- =====================================================================
