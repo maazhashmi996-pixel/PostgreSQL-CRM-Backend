@@ -3,7 +3,6 @@ CREATE FUNCTION current_app_user() RETURNS bigint LANGUAGE sql STABLE AS $$
   SELECT NULLIF(current_setting('app.user_id', true), '')::bigint
 $$;
 
--- 1) Lead score (0-100): source + status + activity + profile completeness + value
 CREATE FUNCTION calculate_lead_score(p_lead_id bigint) RETURNS int
 LANGUAGE plpgsql STABLE AS $$
 DECLARE
