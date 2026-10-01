@@ -1,4 +1,3 @@
--- (create_invoice_number() lives in 01_schema.sql because a table default uses it)
 -- =====================================================================
 
 -- Helper: raise a business-rule error (SQLSTATE CR001 is shown safely to API users)
