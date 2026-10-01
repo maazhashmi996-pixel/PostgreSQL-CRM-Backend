@@ -1,0 +1,138 @@
+Timing is on.
+=== EXPERIMENT 1: leads WHERE assigned_to + status_id ===
+DROP INDEX
+Time: 3.510 ms
+--- BEFORE (no index, sequential scan) ---
+                                            QUERY PLAN                                             
+---------------------------------------------------------------------------------------------------
+ Seq Scan on leads  (cost=0.00..132.62 rows=1 width=262) (actual time=0.150..0.150 rows=0 loops=1)
+   Filter: ((deleted_at IS NULL) AND (assigned_to = 5) AND (status_id = 2))
+   Rows Removed by Filter: 641
+ Planning Time: 0.585 ms
+ Execution Time: 0.193 ms
+(5 rows)
+
+Time: 1.112 ms
+CREATE INDEX
+Time: 3.366 ms
+--- AFTER (composite partial index) ---
+                                                         QUERY PLAN                                                         
+----------------------------------------------------------------------------------------------------------------------------
+ Index Scan using idx_leads_assigned on leads  (cost=0.15..8.17 rows=1 width=262) (actual time=0.019..0.020 rows=0 loops=1)
+   Index Cond: ((assigned_to = 5) AND (status_id = 2))
+ Planning Time: 0.150 ms
+ Execution Time: 0.033 ms
+(4 rows)
+
+Time: 0.326 ms
+=== EXPERIMENT 2: overdue follow-ups (status + due_at) ===
+DROP INDEX
+Time: 0.932 ms
+--- BEFORE ---
+                                                QUERY PLAN                                                 
+-----------------------------------------------------------------------------------------------------------
+ Seq Scan on follow_ups  (cost=0.00..20.50 rows=201 width=146) (actual time=0.225..0.425 rows=157 loops=1)
+   Filter: ((deleted_at IS NULL) AND ((status)::text = 'open'::text) AND (due_at < now()))
+   Rows Removed by Filter: 443
+ Planning Time: 0.952 ms
+ Execution Time: 0.438 ms
+(5 rows)
+
+Time: 1.795 ms
+CREATE INDEX
+Time: 1.148 ms
+--- AFTER (partial index on open rows only) ---
+                                                QUERY PLAN                                                 
+-----------------------------------------------------------------------------------------------------------
+ Seq Scan on follow_ups  (cost=0.00..20.50 rows=201 width=146) (actual time=0.004..0.070 rows=157 loops=1)
+   Filter: ((deleted_at IS NULL) AND ((status)::text = 'open'::text) AND (due_at < now()))
+   Rows Removed by Filter: 443
+ Planning Time: 0.113 ms
+ Execution Time: 0.082 ms
+(5 rows)
+
+Time: 0.300 ms
+=== EXPERIMENT 3: full text search on leads ===
+DROP INDEX
+Time: 0.660 ms
+--- BEFORE (no GIN index) ---
+                                            QUERY PLAN                                            
+--------------------------------------------------------------------------------------------------
+ Seq Scan on leads  (cost=0.00..131.01 rows=1 width=20) (actual time=0.174..0.174 rows=0 loops=1)
+   Filter: (search_vector @@ '''budget'':*'::tsquery)
+   Rows Removed by Filter: 641
+ Planning Time: 0.154 ms
+ Execution Time: 0.180 ms
+(5 rows)
+
+Time: 0.544 ms
+CREATE INDEX
+Time: 2.372 ms
+--- AFTER (GIN index) ---
+                                                      QUERY PLAN                                                       
+-----------------------------------------------------------------------------------------------------------------------
+ Bitmap Heap Scan on leads  (cost=17.06..21.07 rows=1 width=20) (actual time=0.007..0.007 rows=0 loops=1)
+   Recheck Cond: (search_vector @@ '''budget'':*'::tsquery)
+   ->  Bitmap Index Scan on idx_leads_fts  (cost=0.00..17.06 rows=1 width=0) (actual time=0.005..0.006 rows=0 loops=1)
+         Index Cond: (search_vector @@ '''budget'':*'::tsquery)
+ Planning Time: 0.134 ms
+ Execution Time: 0.017 ms
+(6 rows)
+
+Time: 0.284 ms
+=== EXPERIMENT 4: overdue invoices ===
+DROP INDEX
+Time: 0.609 ms
+--- BEFORE ---
+                                               QUERY PLAN                                                
+---------------------------------------------------------------------------------------------------------
+ Seq Scan on invoices  (cost=0.00..15.00 rows=107 width=117) (actual time=0.020..0.056 rows=106 loops=1)
+   Filter: (((status)::text = ANY ('{sent,partial,overdue}'::text[])) AND (due_date < CURRENT_DATE))
+   Rows Removed by Filter: 214
+ Planning Time: 0.218 ms
+ Execution Time: 0.066 ms
+(5 rows)
+
+Time: 0.460 ms
+CREATE INDEX
+Time: 1.057 ms
+--- AFTER (partial index) ---
+                                               QUERY PLAN                                                
+---------------------------------------------------------------------------------------------------------
+ Seq Scan on invoices  (cost=0.00..15.00 rows=107 width=117) (actual time=0.012..0.048 rows=106 loops=1)
+   Filter: (((status)::text = ANY ('{sent,partial,overdue}'::text[])) AND (due_date < CURRENT_DATE))
+   Rows Removed by Filter: 214
+ Planning Time: 0.132 ms
+ Execution Time: 0.057 ms
+(5 rows)
+
+Time: 0.296 ms
+=== EXPERIMENT 5: opportunities by owner+stage+close date ===
+DROP INDEX
+Time: 0.592 ms
+--- BEFORE ---
+                                                   QUERY PLAN                                                   
+----------------------------------------------------------------------------------------------------------------
+ Sort  (cost=18.62..18.63 rows=1 width=165) (actual time=0.046..0.047 rows=0 loops=1)
+   Sort Key: expected_close_date
+   Sort Method: quicksort  Memory: 25kB
+   ->  Seq Scan on opportunities  (cost=0.00..18.61 rows=1 width=165) (actual time=0.044..0.044 rows=0 loops=1)
+         Filter: ((deleted_at IS NULL) AND (owner_id = 5) AND (stage_id = 3))
+         Rows Removed by Filter: 241
+ Planning Time: 0.540 ms
+ Execution Time: 0.057 ms
+(8 rows)
+
+Time: 0.773 ms
+CREATE INDEX
+Time: 0.937 ms
+--- AFTER (composite partial index) ---
+                                                                QUERY PLAN                                                                 
+-------------------------------------------------------------------------------------------------------------------------------------------
+ Index Scan using idx_opp_owner_stage_close on opportunities  (cost=0.14..8.16 rows=1 width=165) (actual time=0.010..0.010 rows=0 loops=1)
+   Index Cond: ((owner_id = 5) AND (stage_id = 3))
+ Planning Time: 0.105 ms
+ Execution Time: 0.018 ms
+(4 rows)
+
+Time: 0.250 ms

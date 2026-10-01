@@ -1,0 +1,1656 @@
+{
+  "info": {
+    "name": "Orbit CRM API",
+    "description": "Full API collection for the Orbit CRM backend. Run 'Login' first.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login (admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@crm.com\",\n  \"password\": \"Password@123\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const data = pm.response.json();",
+                  "if (data.token) { pm.environment.set('token', data.token); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login (manager)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"manager1@crm.com\",\n  \"password\": \"Password@123\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const data = pm.response.json();",
+                  "if (data.token) { pm.environment.set('token', data.token); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login (agent)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"agent1@crm.com\",\n  \"password\": \"Password@123\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const data = pm.response.json();",
+                  "if (data.token) { pm.environment.set('token', data.token); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Me",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/auth/me",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "me"
+              ]
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "Change Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/auth/change-password",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "change-password"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"current_password\": \"Password@123\",\n  \"new_password\": \"NewPassword@123\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/auth/logout",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "logout"
+              ]
+            },
+            "description": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "Meta / Lookups",
+      "item": [
+        {
+          "name": "Get Lookups (dropdowns)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/meta/lookups",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "meta",
+                "lookups"
+              ]
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "User Hierarchy (recursive CTE)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/hierarchy",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "hierarchy"
+              ]
+            },
+            "description": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "Leads",
+      "item": [
+        {
+          "name": "List Leads",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/leads?page=1&limit=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "leads?page=1&limit=10"
+              ]
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "Search Leads",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/leads?search=Khan",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "leads?search=Khan"
+              ]
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "Filter: Open, High Priority",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/leads?open=true&priority=high",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "leads?open=true&priority=high"
+              ]
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "Get Lead Detail",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/leads/{{lead_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "leads",
+                "{{lead_id}}"
+              ]
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "Create Lead",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/leads",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "leads"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Postman Test Lead\",\n  \"email\": \"postman.lead@example.com\",\n  \"source_id\": 1,\n  \"priority\": \"high\",\n  \"estimated_value\": 15000\n}"
+            }
+          }
+        },
+        {
+          "name": "Update Lead",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/leads/{{lead_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "leads",
+                "{{lead_id}}"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"priority\": \"urgent\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Set Lead Tags",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/leads/{{lead_id}}/tags",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "leads",
+                "{{lead_id}}",
+                "tags"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tag_ids\": [\n    1,\n    2\n  ]\n}"
+            }
+          }
+        },
+        {
+          "name": "Convert Lead (transactional)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/leads/{{lead_id}}/convert",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "leads",
+                "{{lead_id}}",
+                "convert"
+              ]
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "Recalculate Lead Score",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/leads/{{lead_id}}/recalculate-score",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "leads",
+                "{{lead_id}}",
+                "recalculate-score"
+              ]
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "Duplicate Leads (window fn)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/leads/duplicates",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "leads",
+                "duplicates"
+              ]
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "Bulk Assign",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/leads/bulk-assign",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "leads",
+                "bulk-assign"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"lead_ids\": [\n    1,\n    2\n  ],\n  \"assigned_to\": 2\n}"
+            }
+          }
+        },
+        {
+          "name": "Bulk Import (partial mode)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/leads/import",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "leads",
+                "import"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"mode\": \"partial\",\n  \"rows\": [\n    {\n      \"name\": \"Import Test\",\n      \"source\": \"Website\"\n    }\n  ]\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Lead",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/leads/{{lead_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "leads",
+                "{{lead_id}}"
+              ]
+            },
+            "description": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "Customers & Contacts",
+      "item": [
+        {
+          "name": "List Customers",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/customers?page=1&limit=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "customers?page=1&limit=10"
+              ]
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "Get Customer 360",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/customers/{{customer_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "customers",
+                "{{customer_id}}"
+              ]
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "Create Customer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/customers",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "customers"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"company_name\": \"Postman Test Co\",\n  \"email\": \"postman@testco.com\",\n  \"status\": \"prospect\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Update Customer",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/customers/{{customer_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "customers",
+                "{{customer_id}}"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"active\"\n}"
+            }
+          }
+        },
+        {
+          "name": "List Contacts",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/contacts?customer_id={{customer_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "contacts?customer_id={{customer_id}}"
+              ]
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "Create Contact",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/contacts",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "contacts"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customer_id\": 1,\n  \"name\": \"Postman Contact\",\n  \"email\": \"contact@testco.com\",\n  \"is_primary\": false\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Activities / Follow-ups / Tasks",
+      "item": [
+        {
+          "name": "List Activities",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/activities?limit=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "activities?limit=10"
+              ]
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "Log Activity",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/activities",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "activities"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"lead_id\": 1,\n  \"type\": \"call\",\n  \"subject\": \"Postman test call\"\n}"
+            }
+          }
+        },
+        {
+          "name": "List Follow-ups (overdue)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/follow-ups?overdue=true",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "follow-ups?overdue=true"
+              ]
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "Schedule Follow-up",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/follow-ups",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "follow-ups"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"lead_id\": 1,\n  \"title\": \"Postman follow-up\",\n  \"due_at\": \"2026-12-01T10:00:00Z\"\n}"
+            }
+          }
+        },
+        {
+          "name": "List Tasks",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/tasks?status=todo",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "tasks?status=todo"
+              ]
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "Create Task",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/tasks",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "tasks"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Postman task\",\n  \"priority\": \"medium\",\n  \"due_date\": \"2026-12-01\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Opportunities & Products",
+      "item": [
+        {
+          "name": "List Opportunities",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/opportunities?open=true",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "opportunities?open=true"
+              ]
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "Create Opportunity",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/opportunities",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "opportunities"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customer_id\": 1,\n  \"stage_id\": 1,\n  \"title\": \"Postman Deal\",\n  \"amount\": 20000\n}"
+            }
+          }
+        },
+        {
+          "name": "Move Stage",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/opportunities/{{opportunity_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "opportunities",
+                "{{opportunity_id}}"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"stage_id\": 2\n}"
+            }
+          }
+        },
+        {
+          "name": "Set Opportunity Products",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/opportunities/{{opportunity_id}}/products",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "opportunities",
+                "{{opportunity_id}}",
+                "products"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    {\n      \"product_id\": 1,\n      \"quantity\": 2,\n      \"unit_price\": 500,\n      \"discount\": 10\n    }\n  ]\n}"
+            }
+          }
+        },
+        {
+          "name": "List Products",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/products",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "products"
+              ]
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "Create Product",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/products",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "products"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Postman Product\",\n  \"sku\": \"PM-001\",\n  \"price\": 99.99\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Quotes / Invoices / Payments",
+      "item": [
+        {
+          "name": "List Quotes",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/quotes",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "quotes"
+              ]
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "Create Quote",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/quotes",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "quotes"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customer_id\": 1,\n  \"total_amount\": 5000\n}"
+            }
+          }
+        },
+        {
+          "name": "List Invoices",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/invoices?status=overdue",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "invoices?status=overdue"
+              ]
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "Get Invoice",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/invoices/{{invoice_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "invoices",
+                "{{invoice_id}}"
+              ]
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "Create Invoice + Initial Payment (transactional)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/invoices",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "invoices"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customer_id\": 1,\n  \"due_date\": \"2026-12-01\",\n  \"total_amount\": 3000,\n  \"initial_payment\": {\n    \"amount\": 1000,\n    \"payment_method\": \"bank_transfer\"\n  }\n}"
+            }
+          }
+        },
+        {
+          "name": "List Payments for Invoice",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/invoices/{{invoice_id}}/payments",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "invoices",
+                "{{invoice_id}}",
+                "payments"
+              ]
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "Record Payment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/payments",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "payments"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"invoice_id\": 1,\n  \"amount\": 500,\n  \"payment_method\": \"cash\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Overpay Invoice (expect 409 - business rule)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/payments",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "payments"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"invoice_id\": 1,\n  \"amount\": 999999999,\n  \"payment_method\": \"cash\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reports",
+      "item": [
+        {
+          "name": "Dashboard KPIs",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/reports/dashboard",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "reports",
+                "dashboard"
+              ]
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "Lead Conversion Report",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/reports/lead-conversion",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "reports",
+                "lead-conversion"
+              ]
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "Agent Performance",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/reports/agent-performance",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "reports",
+                "agent-performance"
+              ]
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "Agent Ranking (RANK/DENSE_RANK)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/reports/agent-ranking",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "reports",
+                "agent-ranking"
+              ]
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "Sales Pipeline",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/reports/pipeline",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "reports",
+                "pipeline"
+              ]
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "Revenue (with running total)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/reports/revenue",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "reports",
+                "revenue"
+              ]
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "Overdue Follow-ups",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/reports/overdue-followups",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "reports",
+                "overdue-followups"
+              ]
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "Lead Source Performance",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/reports/lead-source-performance",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "reports",
+                "lead-source-performance"
+              ]
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "Customer Value",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/reports/customer-value",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "reports",
+                "customer-value"
+              ]
+            },
+            "description": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "List Users",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/users",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users"
+              ]
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/users",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Postman User\",\n  \"email\": \"postman.user@crm.com\",\n  \"password\": \"Password@123\",\n  \"role_id\": 3\n}"
+            }
+          }
+        },
+        {
+          "name": "List Teams",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/teams",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "teams"
+              ]
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "Create Team",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/teams",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "teams"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Postman Team\"\n}"
+            }
+          }
+        },
+        {
+          "name": "List Audit Logs",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/audit-logs?limit=20",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "audit-logs?limit=20"
+              ]
+            },
+            "description": ""
+          }
+        }
+      ]
+    }
+  ]
+}
