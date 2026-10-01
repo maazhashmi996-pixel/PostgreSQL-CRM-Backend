@@ -1,5 +1,4 @@
 
--- Helper: raise a business-rule error (SQLSTATE CR001 is shown safely to API users)
 CREATE FUNCTION current_app_user() RETURNS bigint LANGUAGE sql STABLE AS $$
   SELECT NULLIF(current_setting('app.user_id', true), '')::bigint
 $$;
