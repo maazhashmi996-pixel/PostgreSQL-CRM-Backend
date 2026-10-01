@@ -1,9 +1,4 @@
--- =====================================================================
--- CRM  |  02_functions.sql  |  Business logic in PostgreSQL
--- (create_invoice_number() lives in 01_schema.sql because a table default uses it)
--- =====================================================================
 
--- Helper: raise a business-rule error (SQLSTATE CR001 is shown safely to API users)
 CREATE FUNCTION current_app_user() RETURNS bigint LANGUAGE sql STABLE AS $$
   SELECT NULLIF(current_setting('app.user_id', true), '')::bigint
 $$;
