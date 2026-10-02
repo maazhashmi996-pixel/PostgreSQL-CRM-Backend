@@ -37,7 +37,6 @@ LANGUAGE sql STABLE AS $$
                       AND i.status NOT IN ('draft','cancelled')), 0)
 $$;
 
--- 3) Unpaid amount of invoices that are past their due date
 CREATE FUNCTION get_overdue_amount(p_customer_id bigint) RETURNS numeric
 LANGUAGE sql STABLE AS $$
   SELECT COALESCE(SUM(GREATEST(i.total_amount - paid.amount, 0)), 0)
