@@ -68,7 +68,6 @@ RETURNS TABLE (
                  AND s.name NOT IN ('Closed Won','Closed Lost')), 0)
 $$;
 
--- 5) Monthly KPIs of one agent
 CREATE FUNCTION get_agent_monthly_stats(p_user_id bigint, p_month date DEFAULT current_date)
 RETURNS TABLE (
   month date, leads_created int, leads_contacted int, leads_converted int, activities_count int,
