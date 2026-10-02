@@ -37,7 +37,6 @@ LANGUAGE sql STABLE AS $$
                       AND i.status NOT IN ('draft','cancelled')), 0)
 $$;
 
--- 3) Unpaid amount of invoices that are past their due date
 CREATE FUNCTION get_overdue_amount(p_customer_id bigint) RETURNS numeric
 LANGUAGE sql STABLE AS $$
   SELECT COALESCE(SUM(GREATEST(i.total_amount - paid.amount, 0)), 0)
@@ -51,7 +50,6 @@ LANGUAGE sql STABLE AS $$
     AND i.due_date < current_date
 $$;
 
--- 4) Complete financial summary of a customer (practice task #20)
 CREATE FUNCTION get_customer_financial_summary(p_customer_id bigint)
 RETURNS TABLE (
   invoice_count int, total_invoiced numeric, total_paid numeric, outstanding numeric,
@@ -70,7 +68,6 @@ RETURNS TABLE (
                  AND s.name NOT IN ('Closed Won','Closed Lost')), 0)
 $$;
 
--- 5) Monthly KPIs of one agent
 CREATE FUNCTION get_agent_monthly_stats(p_user_id bigint, p_month date DEFAULT current_date)
 RETURNS TABLE (
   month date, leads_created int, leads_contacted int, leads_converted int, activities_count int,
@@ -101,7 +98,6 @@ RETURNS TABLE (
   FROM m
 $$;
 
--- 6) Manager -> employee hierarchy using a recursive CTE
 CREATE FUNCTION get_user_hierarchy(p_root bigint DEFAULT NULL)
 RETURNS TABLE (id bigint, name varchar, role_name varchar, manager_id bigint, depth int, path text)
 LANGUAGE sql STABLE AS $$
@@ -117,7 +113,6 @@ LANGUAGE sql STABLE AS $$
   SELECT * FROM tree ORDER BY path
 $$;
 
--- 7) Transaction-based lead conversion (runs atomically: any failure rolls everything back)
 CREATE FUNCTION convert_lead(p_lead_id bigint, p_user_id bigint)
 RETURNS TABLE (new_customer_id bigint, new_contact_id bigint, new_opportunity_id bigint)
 LANGUAGE plpgsql AS $$
