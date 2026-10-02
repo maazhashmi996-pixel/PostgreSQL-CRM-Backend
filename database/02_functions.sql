@@ -98,7 +98,6 @@ RETURNS TABLE (
   FROM m
 $$;
 
--- 6) Manager -> employee hierarchy using a recursive CTE
 CREATE FUNCTION get_user_hierarchy(p_root bigint DEFAULT NULL)
 RETURNS TABLE (id bigint, name varchar, role_name varchar, manager_id bigint, depth int, path text)
 LANGUAGE sql STABLE AS $$
