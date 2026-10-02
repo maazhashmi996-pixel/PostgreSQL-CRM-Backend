@@ -50,7 +50,6 @@ LANGUAGE sql STABLE AS $$
     AND i.due_date < current_date
 $$;
 
--- 4) Complete financial summary of a customer (practice task #20)
 CREATE FUNCTION get_customer_financial_summary(p_customer_id bigint)
 RETURNS TABLE (
   invoice_count int, total_invoiced numeric, total_paid numeric, outstanding numeric,
