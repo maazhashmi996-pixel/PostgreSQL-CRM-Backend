@@ -163,7 +163,6 @@ BEGIN
   RETURN QUERY SELECT v_cust, v_contact, v_opp;
 END $$;
 
--- 8) Recompute invoice status from its payments (used by triggers)
 CREATE FUNCTION recalc_invoice_status(p_invoice_id bigint) RETURNS void
 LANGUAGE plpgsql AS $$
 DECLARE i invoices%ROWTYPE; v_paid numeric; v_new varchar;
