@@ -113,7 +113,6 @@ LANGUAGE sql STABLE AS $$
   SELECT * FROM tree ORDER BY path
 $$;
 
--- 7) Transaction-based lead conversion (runs atomically: any failure rolls everything back)
 CREATE FUNCTION convert_lead(p_lead_id bigint, p_user_id bigint)
 RETURNS TABLE (new_customer_id bigint, new_contact_id bigint, new_opportunity_id bigint)
 LANGUAGE plpgsql AS $$
