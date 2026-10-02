@@ -130,7 +130,6 @@ BEGIN
   SELECT id INTO v_status FROM lead_statuses WHERE name = 'Converted';
   SELECT id, probability INTO v_stage, v_prob FROM lead_stages ORDER BY sort_order LIMIT 1;
 
-  -- reuse an existing customer with the same email, otherwise create one
   IF l.email IS NOT NULL THEN
     SELECT id INTO v_cust FROM customers WHERE lower(email) = lower(l.email) AND deleted_at IS NULL;
   END IF;
