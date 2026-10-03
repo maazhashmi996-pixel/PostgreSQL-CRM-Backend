@@ -179,7 +179,6 @@ BEGIN
   IF v_new <> i.status THEN UPDATE invoices SET status = v_new WHERE id = p_invoice_id; END IF;
 END $$;
 
--- 9) Nightly maintenance helper: mark unpaid invoices as overdue
 CREATE PROCEDURE mark_overdue_invoices()
 LANGUAGE sql AS $$
   UPDATE invoices SET status = 'overdue' WHERE status IN ('sent','partial') AND due_date < current_date
