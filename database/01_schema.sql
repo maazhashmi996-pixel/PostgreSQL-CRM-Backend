@@ -1,11 +1,9 @@
--- =====================================================================
 SET client_min_messages = warning;
 
 CREATE SEQUENCE customer_code_seq START 1001;
 CREATE SEQUENCE invoice_number_seq START 1001;
 CREATE SEQUENCE quote_number_seq START 1001;
 
--- Controlled invoice number generator: INV-<year>-<6 digit sequence>
 CREATE FUNCTION create_invoice_number() RETURNS varchar
 LANGUAGE sql AS $$
   SELECT 'INV-' || to_char(now(), 'YYYY') || '-' || lpad(nextval('invoice_number_seq')::text, 6, '0')
