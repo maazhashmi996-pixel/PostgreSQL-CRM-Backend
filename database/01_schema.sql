@@ -1,6 +1,4 @@
 -- =====================================================================
--- CRM  |  01_schema.sql  |  Tables, keys, constraints   (PostgreSQL 14+)
--- =====================================================================
 SET client_min_messages = warning;
 
 CREATE SEQUENCE customer_code_seq START 1001;
