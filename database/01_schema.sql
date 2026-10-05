@@ -108,7 +108,7 @@ CREATE TABLE contacts (
   updated_at timestamptz NOT NULL DEFAULT now(),
   deleted_at timestamptz
 );
--- composite unique: contact email is unique inside one customer
+
 CREATE UNIQUE INDEX uq_contacts_customer_email ON contacts (customer_id, lower(email)) WHERE email IS NOT NULL AND deleted_at IS NULL;
 -- only one primary contact per customer
 CREATE UNIQUE INDEX uq_contacts_one_primary ON contacts (customer_id) WHERE is_primary AND deleted_at IS NULL;
