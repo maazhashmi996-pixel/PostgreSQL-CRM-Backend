@@ -3,7 +3,7 @@ const config = require('./config');
 
 types.setTypeParser(20, (v) => parseInt(v, 10));     
 types.setTypeParser(1700, (v) => parseFloat(v));       
-types.setTypeParser(1082, (v) => v);                   // date    -> 'YYYY-MM-DD' string (no timezone shifting)
+types.setTypeParser(1082, (v) => v);                 
 
 const pool = new Pool({ connectionString: config.databaseUrl, max: 20 });
 pool.on('error', (e) => console.error('[pg] idle client error', e.message));
