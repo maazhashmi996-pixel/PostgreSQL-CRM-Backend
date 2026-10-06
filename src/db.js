@@ -10,10 +10,7 @@ pool.on('error', (e) => console.error('[pg] idle client error', e.message));
 
 const query = (text, params) => pool.query(text, params);
 
-/**
- 
- 
- */
+
 async function tx(userId, fn) {
   const client = await pool.connect();
   try {
