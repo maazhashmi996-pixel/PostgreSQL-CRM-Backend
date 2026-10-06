@@ -12,7 +12,7 @@ const query = (text, params) => pool.query(text, params);
 
 /**
  
- * setting `app.user_id`, which the audit / history triggers read.
+ 
  */
 async function tx(userId, fn) {
   const client = await pool.connect();
