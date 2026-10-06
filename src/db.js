@@ -2,7 +2,7 @@ const { Pool, types } = require('pg');
 const config = require('./config');
 
 types.setTypeParser(20, (v) => parseInt(v, 10));     
-types.setTypeParser(1700, (v) => parseFloat(v));       // numeric -> number
+types.setTypeParser(1700, (v) => parseFloat(v));       
 types.setTypeParser(1082, (v) => v);                   // date    -> 'YYYY-MM-DD' string (no timezone shifting)
 
 const pool = new Pool({ connectionString: config.databaseUrl, max: 20 });
