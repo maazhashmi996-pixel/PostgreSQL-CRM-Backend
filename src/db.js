@@ -11,7 +11,7 @@ pool.on('error', (e) => console.error('[pg] idle client error', e.message));
 const query = (text, params) => pool.query(text, params);
 
 /**
- * Run fn inside a transaction. The acting user id is stored in the transaction-local
+ 
  * setting `app.user_id`, which the audit / history triggers read.
  */
 async function tx(userId, fn) {
