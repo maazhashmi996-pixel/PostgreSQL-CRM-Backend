@@ -221,7 +221,7 @@ CREATE TABLE opportunities (
   stage_id int NOT NULL REFERENCES lead_stages(id) ON DELETE RESTRICT,
   title varchar(200) NOT NULL,
   amount numeric(14,2) NOT NULL DEFAULT 0,
-  products_total numeric(14,2) NOT NULL DEFAULT 0,      -- maintained by trigger
+  products_total numeric(14,2) NOT NULL DEFAULT 0,     
   probability smallint,
   expected_close_date date,
   closed_at timestamptz,
