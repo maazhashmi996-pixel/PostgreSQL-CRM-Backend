@@ -5,7 +5,7 @@ const { Q, pageParams, escapeLike } = require('./query');
 const { authorize, scopeSql, ROLES } = require('../middleware/auth');
 
 /**
- * Config driven REST resource: GET / , GET /:id , POST / , PATCH /:id , DELETE /:id
+
  *  - `columns` / `from`: SELECT list and FROM clause (joins) for reads, main table aliased as `alias`
  *  - `create` (zod object) validates POST, PATCH uses create.partial()
  *  - `writable`: whitelist of real table columns that may be written (identifiers are never taken from the client)
