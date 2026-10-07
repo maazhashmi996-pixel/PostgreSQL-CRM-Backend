@@ -4,14 +4,6 @@ const { asyncHandler, ApiError } = require('./http');
 const { Q, pageParams, escapeLike } = require('./query');
 const { authorize, scopeSql, ROLES } = require('../middleware/auth');
 
-/**
-
- 
- 
- 
- 
- 
- */
 function crud(cfg) {
   const {
     table, alias, from, columns, create, searchCols = [], filters = {}, sortable = {}, defaultSort,
