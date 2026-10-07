@@ -7,7 +7,7 @@ const { authorize, scopeSql, ROLES } = require('../middleware/auth');
 /**
 
  
- *  - `create` (zod object) validates POST, PATCH uses create.partial()
+ 
  *  - `writable`: whitelist of real table columns that may be written (identifiers are never taken from the client)
  *  - `scopeCol`: user-id column used for role based row-level scope
  *  - hooks: beforeCreate/afterCreate/beforeUpdate/afterUpdate/beforeDelete (all run inside the transaction)
