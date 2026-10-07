@@ -13,7 +13,7 @@ BEGIN
   END LOOP;
 END $$;
 
--- 2) Lead status history -------------------------------------------------
+
 CREATE FUNCTION log_lead_status_change() RETURNS trigger LANGUAGE plpgsql AS $$
 BEGIN
   IF TG_OP = 'INSERT' THEN
