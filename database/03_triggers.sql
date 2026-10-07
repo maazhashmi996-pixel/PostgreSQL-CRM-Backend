@@ -30,7 +30,6 @@ CREATE TRIGGER trg_leads_status_history_ins AFTER INSERT ON leads
 CREATE TRIGGER trg_leads_status_history_upd AFTER UPDATE OF status_id ON leads
   FOR EACH ROW WHEN (OLD.status_id IS DISTINCT FROM NEW.status_id) EXECUTE FUNCTION log_lead_status_change();
 
--- 3) Generic audit log (INSERT / UPDATE / SOFT_DELETE / DELETE) ---------------
 --    The API sets  app.user_id  inside each transaction: SELECT set_config('app.user_id', '42', true)
 --    Set  app.skip_audit = 'on'  for bulk loads (e.g. seed data).
 CREATE FUNCTION audit_row_change() RETURNS trigger LANGUAGE plpgsql AS $$
