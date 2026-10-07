@@ -10,7 +10,7 @@ const { authorize, scopeSql, ROLES } = require('../middleware/auth');
  
  
  
- *  - hooks: beforeCreate/afterCreate/beforeUpdate/afterUpdate/beforeDelete (all run inside the transaction)
+ 
  */
 function crud(cfg) {
   const {
