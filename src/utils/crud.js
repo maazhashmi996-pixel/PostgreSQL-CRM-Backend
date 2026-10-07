@@ -9,7 +9,7 @@ const { authorize, scopeSql, ROLES } = require('../middleware/auth');
  
  
  
- *  - `scopeCol`: user-id column used for role based row-level scope
+ 
  *  - hooks: beforeCreate/afterCreate/beforeUpdate/afterUpdate/beforeDelete (all run inside the transaction)
  */
 function crud(cfg) {
