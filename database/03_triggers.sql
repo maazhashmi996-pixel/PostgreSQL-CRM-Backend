@@ -138,7 +138,6 @@ END $$;
 CREATE TRIGGER trg_opportunities_stage BEFORE INSERT OR UPDATE OF stage_id ON opportunities
   FOR EACH ROW EXECUTE FUNCTION sync_opportunity_stage();
 
--- 8) Lead score refresh when an activity is logged ---------------------------------
 CREATE FUNCTION refresh_lead_score() RETURNS trigger LANGUAGE plpgsql AS $$
 BEGIN
   IF NEW.lead_id IS NOT NULL THEN
