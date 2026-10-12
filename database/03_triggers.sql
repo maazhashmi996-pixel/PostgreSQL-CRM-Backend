@@ -111,7 +111,6 @@ END $$;
 CREATE TRIGGER trg_invoices_guard BEFORE UPDATE OF total_amount, status ON invoices
   FOR EACH ROW EXECUTE FUNCTION guard_invoice_total();
 
--- 6) Opportunity total from its products -----------------------------------------
 CREATE FUNCTION refresh_opportunity_total() RETURNS trigger LANGUAGE plpgsql AS $$
 DECLARE v_opp bigint := COALESCE(NEW.opportunity_id, OLD.opportunity_id); v_total numeric; v_cnt int;
 BEGIN
