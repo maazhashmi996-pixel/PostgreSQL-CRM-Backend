@@ -124,7 +124,6 @@ END $$;
 CREATE TRIGGER trg_opp_products_total AFTER INSERT OR UPDATE OR DELETE ON opportunity_products
   FOR EACH ROW EXECUTE FUNCTION refresh_opportunity_total();
 
--- 7) Opportunity stage -> probability / closed_at --------------------------------
 CREATE FUNCTION sync_opportunity_stage() RETURNS trigger LANGUAGE plpgsql AS $$
 DECLARE s lead_stages%ROWTYPE;
 BEGIN
