@@ -30,8 +30,7 @@ CREATE TRIGGER trg_leads_status_history_ins AFTER INSERT ON leads
 CREATE TRIGGER trg_leads_status_history_upd AFTER UPDATE OF status_id ON leads
   FOR EACH ROW WHEN (OLD.status_id IS DISTINCT FROM NEW.status_id) EXECUTE FUNCTION log_lead_status_change();
 
---    The API sets  app.user_id  inside each transaction: SELECT set_config('app.user_id', '42', true)
---    Set  app.skip_audit = 'on'  for bulk loads (e.g. seed data).
+
 CREATE FUNCTION audit_row_change() RETURNS trigger LANGUAGE plpgsql AS $$
 DECLARE v_old jsonb; v_new jsonb; v_action text; v_id bigint;
   v_noise text[] := ARRAY['updated_at','score','search_vector','last_login_at','password_hash'];
@@ -65,7 +64,6 @@ BEGIN
   END LOOP;
 END $$;
 
--- 4) Payment validation (business rule: total successful payments can never exceed the invoice) ----
 CREATE FUNCTION validate_payment() RETURNS trigger LANGUAGE plpgsql AS $$
 DECLARE i invoices%ROWTYPE; v_paid numeric;
 BEGIN
@@ -89,7 +87,6 @@ END $$;
 CREATE TRIGGER trg_payments_validate BEFORE INSERT OR UPDATE ON payments
   FOR EACH ROW EXECUTE FUNCTION validate_payment();
 
--- 5) Keep invoice status in sync with payments ---------------------------------
 CREATE FUNCTION sync_invoice_status() RETURNS trigger LANGUAGE plpgsql AS $$
 BEGIN
   PERFORM recalc_invoice_status(COALESCE(NEW.invoice_id, OLD.invoice_id));
@@ -98,7 +95,7 @@ END $$;
 CREATE TRIGGER trg_payments_sync_invoice AFTER INSERT OR UPDATE OR DELETE ON payments
   FOR EACH ROW EXECUTE FUNCTION sync_invoice_status();
 
--- ...and stop the invoice total being lowered below what is already paid
+
 CREATE FUNCTION guard_invoice_total() RETURNS trigger LANGUAGE plpgsql AS $$
 DECLARE v_paid numeric;
 BEGIN
