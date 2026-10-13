@@ -1,8 +1,4 @@
--- =====================================================================
--- CRM  |  04_views.sql
--- =====================================================================
 
--- Lead count and potential value by status
 CREATE VIEW v_lead_pipeline AS
 SELECT s.id AS status_id, s.name AS status_name, s.sort_order, s.color,
        COUNT(l.id)::int AS lead_count,
@@ -13,7 +9,7 @@ LEFT JOIN leads l ON l.status_id = s.id AND l.deleted_at IS NULL
 GROUP BY s.id, s.name, s.sort_order, s.color
 ORDER BY s.sort_order;
 
--- Agent performance
+
 CREATE VIEW v_agent_performance AS
 SELECT u.id AS user_id, u.name AS agent_name, u.team_id, t.name AS team_name, r.name AS role_name,
   (SELECT COUNT(*)::int FROM leads l WHERE l.assigned_to = u.id AND l.deleted_at IS NULL) AS assigned_leads,
