@@ -1,8 +1,4 @@
 
-
-
-
--- Lead count and potential value by status
 CREATE VIEW v_lead_pipeline AS
 SELECT s.id AS status_id, s.name AS status_name, s.sort_order, s.color,
        COUNT(l.id)::int AS lead_count,
