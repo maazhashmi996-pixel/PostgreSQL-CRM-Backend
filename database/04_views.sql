@@ -27,7 +27,7 @@ JOIN roles r ON r.id = u.role_id
 LEFT JOIN teams t ON t.id = u.team_id
 WHERE u.deleted_at IS NULL AND r.name IN ('sales_agent','manager');
 
--- Customer summary
+
 CREATE VIEW v_customer_summary AS
 SELECT c.id AS customer_id, c.customer_code, c.company_name, c.status,
   (SELECT COUNT(*)::int FROM contacts ct WHERE ct.customer_id = c.id AND ct.deleted_at IS NULL) AS contact_count,
