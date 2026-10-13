@@ -40,7 +40,6 @@ SELECT c.id AS customer_id, c.customer_code, c.company_name, c.status,
 FROM customers c
 WHERE c.deleted_at IS NULL;
 
--- Open follow-ups whose due date has passed
 CREATE VIEW v_overdue_followups AS
 SELECT f.id, f.title, f.due_at, f.assigned_to, u.name AS agent_name, u.team_id,
        f.lead_id, l.name AS lead_name, f.customer_id, c.company_name AS customer_name,
