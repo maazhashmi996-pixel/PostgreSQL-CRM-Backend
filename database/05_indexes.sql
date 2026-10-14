@@ -1,5 +1,5 @@
 -- =====================================================================
--- CRM  |  05_indexes.sql   (see docs/OPTIMIZATION.md for EXPLAIN ANALYZE experiments)
+
 -- =====================================================================
 
 -- Foreign keys frequently used in joins
