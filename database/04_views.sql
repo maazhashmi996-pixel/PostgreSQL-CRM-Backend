@@ -50,7 +50,7 @@ LEFT JOIN leads l ON l.id = f.lead_id
 LEFT JOIN customers c ON c.id = f.customer_id
 WHERE f.status = 'open' AND f.deleted_at IS NULL AND f.due_at < now();
 
--- Monthly invoice / payment totals
+
 CREATE VIEW v_monthly_revenue AS
 WITH inv AS (
   SELECT date_trunc('month', issue_date)::date AS month, SUM(total_amount) AS invoiced, COUNT(*)::int AS invoice_count
