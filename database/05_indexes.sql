@@ -14,7 +14,6 @@ CREATE INDEX idx_quotes_customer   ON quotes (customer_id);
 CREATE INDEX idx_lead_tags_tag     ON lead_tags (tag_id);
 CREATE INDEX idx_lsh_lead          ON lead_status_history (lead_id, changed_at);
 
--- Leads: assigned_to, status_id, source_id, created_at (all partial: live rows only)
 CREATE INDEX idx_leads_assigned    ON leads (assigned_to, status_id) WHERE deleted_at IS NULL;
 CREATE INDEX idx_leads_status      ON leads (status_id) WHERE deleted_at IS NULL;
 CREATE INDEX idx_leads_source      ON leads (source_id) WHERE deleted_at IS NULL;
