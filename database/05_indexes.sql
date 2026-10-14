@@ -1,8 +1,4 @@
 
-
-
-
--- Foreign keys frequently used in joins
 CREATE INDEX idx_users_role        ON users (role_id);
 CREATE INDEX idx_users_team        ON users (team_id);
 CREATE INDEX idx_users_manager     ON users (manager_id);
