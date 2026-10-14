@@ -77,7 +77,7 @@ LEFT JOIN opportunities o ON o.stage_id = s.id AND o.deleted_at IS NULL
 GROUP BY s.id, s.name, s.sort_order, s.probability
 ORDER BY s.sort_order;
 
--- Lead source performance
+
 CREATE VIEW v_lead_source_performance AS
 SELECT src.id AS source_id, src.name AS source_name,
        COUNT(l.id)::int AS total_leads,
