@@ -67,7 +67,6 @@ SELECT COALESCE(inv.month, pay.month) AS month,
 FROM inv FULL JOIN pay ON pay.month = inv.month
 ORDER BY 1;
 
--- Stage-wise opportunity count, amount and weighted amount
 CREATE VIEW v_sales_funnel AS
 SELECT s.id AS stage_id, s.name AS stage_name, s.sort_order, s.probability,
        COUNT(o.id)::int AS opportunity_count,
