@@ -1,6 +1,6 @@
--- =====================================================================
--- CRM  |  05_indexes.sql   (see docs/OPTIMIZATION.md for EXPLAIN ANALYZE experiments)
--- =====================================================================
+
+
+
 
 -- Foreign keys frequently used in joins
 CREATE INDEX idx_users_role        ON users (role_id);

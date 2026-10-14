@@ -27,7 +27,7 @@ JOIN roles r ON r.id = u.role_id
 LEFT JOIN teams t ON t.id = u.team_id
 WHERE u.deleted_at IS NULL AND r.name IN ('sales_agent','manager');
 
--- Customer summary
+
 CREATE VIEW v_customer_summary AS
 SELECT c.id AS customer_id, c.customer_code, c.company_name, c.status,
   (SELECT COUNT(*)::int FROM contacts ct WHERE ct.customer_id = c.id AND ct.deleted_at IS NULL) AS contact_count,
@@ -40,7 +40,6 @@ SELECT c.id AS customer_id, c.customer_code, c.company_name, c.status,
 FROM customers c
 WHERE c.deleted_at IS NULL;
 
--- Open follow-ups whose due date has passed
 CREATE VIEW v_overdue_followups AS
 SELECT f.id, f.title, f.due_at, f.assigned_to, u.name AS agent_name, u.team_id,
        f.lead_id, l.name AS lead_name, f.customer_id, c.company_name AS customer_name,
@@ -51,7 +50,7 @@ LEFT JOIN leads l ON l.id = f.lead_id
 LEFT JOIN customers c ON c.id = f.customer_id
 WHERE f.status = 'open' AND f.deleted_at IS NULL AND f.due_at < now();
 
--- Monthly invoice / payment totals
+
 CREATE VIEW v_monthly_revenue AS
 WITH inv AS (
   SELECT date_trunc('month', issue_date)::date AS month, SUM(total_amount) AS invoiced, COUNT(*)::int AS invoice_count
@@ -68,7 +67,6 @@ SELECT COALESCE(inv.month, pay.month) AS month,
 FROM inv FULL JOIN pay ON pay.month = inv.month
 ORDER BY 1;
 
--- Stage-wise opportunity count, amount and weighted amount
 CREATE VIEW v_sales_funnel AS
 SELECT s.id AS stage_id, s.name AS stage_name, s.sort_order, s.probability,
        COUNT(o.id)::int AS opportunity_count,
@@ -79,7 +77,7 @@ LEFT JOIN opportunities o ON o.stage_id = s.id AND o.deleted_at IS NULL
 GROUP BY s.id, s.name, s.sort_order, s.probability
 ORDER BY s.sort_order;
 
--- Lead source performance
+
 CREATE VIEW v_lead_source_performance AS
 SELECT src.id AS source_id, src.name AS source_name,
        COUNT(l.id)::int AS total_leads,
