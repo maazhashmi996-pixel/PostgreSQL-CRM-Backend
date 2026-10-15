@@ -1,4 +1,4 @@
--- =====================================================================
+
 
 SELECT set_config('app.skip_audit', 'on', false);
 SELECT setseed(0.42);
