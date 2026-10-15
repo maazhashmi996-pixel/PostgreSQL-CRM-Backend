@@ -22,12 +22,10 @@ CREATE INDEX idx_leads_email       ON leads (lower(email));
 CREATE INDEX idx_leads_fts         ON leads USING gin (search_vector);
 CREATE INDEX idx_customers_fts     ON customers USING gin (search_vector);
 
--- Activities
+
 CREATE INDEX idx_activities_lead     ON activities (lead_id, activity_at DESC) WHERE deleted_at IS NULL;
 CREATE INDEX idx_activities_customer ON activities (customer_id, activity_at DESC) WHERE deleted_at IS NULL;
 CREATE INDEX idx_activities_user     ON activities (user_id, activity_at DESC);
-
--- Follow-ups: assigned_to + status + due_at, plus partial index for the "open" queue
 CREATE INDEX idx_followups_owner_status_due ON follow_ups (assigned_to, status, due_at);
 CREATE INDEX idx_followups_open_due  ON follow_ups (due_at) WHERE status = 'open' AND deleted_at IS NULL;
 CREATE INDEX idx_followups_lead      ON follow_ups (lead_id);
