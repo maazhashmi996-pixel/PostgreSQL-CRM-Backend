@@ -28,7 +28,6 @@ INSERT INTO teams (name, description) VALUES
  ('Alpha Team','Enterprise accounts'),('Beta Team','Small & medium business'),
  ('Gamma Team','Inside sales'),('Delta Team','Partnerships & channels');
 
--- ---------- helper arrays ----------
 CREATE TEMP TABLE seed_arr AS SELECT
   ARRAY['Ali','Ahmed','Sara','Fatima','Usman','Ayesha','Hassan','Zainab','Bilal','Hira','Omar','Maryam','Daniel','Emma','Liam','Olivia','Noah','Sophia','James','Mia','Ethan','Amelia','Lucas','Ella','Hamza','Noor','Imran','Sana','Talha','Iqra'] AS fn,
   ARRAY['Khan','Malik','Sheikh','Butt','Chaudhry','Qureshi','Raza','Siddiqui','Iqbal','Ansari','Smith','Johnson','Brown','Taylor','Wilson','Clark','Lewis','Walker','Hall','Young','Ahmed','Farooq','Hussain','Mirza','Javed','Nawaz','Rehman','Saeed','Baig','Zafar'] AS ln,
