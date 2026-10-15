@@ -36,7 +36,7 @@ CREATE INDEX idx_tasks_owner_status  ON tasks (assigned_to, status, due_date) WH
 CREATE INDEX idx_opp_owner_stage_close ON opportunities (owner_id, stage_id, expected_close_date) WHERE deleted_at IS NULL;
 CREATE INDEX idx_opp_customer        ON opportunities (customer_id);
 
--- Finance
+
 CREATE INDEX idx_invoices_open_due   ON invoices (due_date) WHERE status IN ('sent','partial','overdue');
 CREATE INDEX idx_payments_paid_at    ON payments (paid_at) WHERE status = 'successful';
 
