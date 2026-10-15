@@ -40,7 +40,7 @@ CREATE INDEX idx_opp_customer        ON opportunities (customer_id);
 CREATE INDEX idx_invoices_open_due   ON invoices (due_date) WHERE status IN ('sent','partial','overdue');
 CREATE INDEX idx_payments_paid_at    ON payments (paid_at) WHERE status = 'successful';
 
--- Audit
+
 CREATE INDEX idx_audit_record        ON audit_logs (table_name, record_id);
 CREATE INDEX idx_audit_created       ON audit_logs (created_at DESC);
 CREATE INDEX idx_audit_user          ON audit_logs (user_id);
