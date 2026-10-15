@@ -31,7 +31,7 @@ CREATE INDEX idx_followups_open_due  ON follow_ups (due_at) WHERE status = 'open
 CREATE INDEX idx_followups_lead      ON follow_ups (lead_id);
 CREATE INDEX idx_followups_customer  ON follow_ups (customer_id);
 
--- Tasks / opportunities
+
 CREATE INDEX idx_tasks_owner_status  ON tasks (assigned_to, status, due_date) WHERE deleted_at IS NULL;
 CREATE INDEX idx_opp_owner_stage_close ON opportunities (owner_id, stage_id, expected_close_date) WHERE deleted_at IS NULL;
 CREATE INDEX idx_opp_customer        ON opportunities (customer_id);
