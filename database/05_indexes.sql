@@ -22,27 +22,25 @@ CREATE INDEX idx_leads_email       ON leads (lower(email));
 CREATE INDEX idx_leads_fts         ON leads USING gin (search_vector);
 CREATE INDEX idx_customers_fts     ON customers USING gin (search_vector);
 
--- Activities
+
 CREATE INDEX idx_activities_lead     ON activities (lead_id, activity_at DESC) WHERE deleted_at IS NULL;
 CREATE INDEX idx_activities_customer ON activities (customer_id, activity_at DESC) WHERE deleted_at IS NULL;
 CREATE INDEX idx_activities_user     ON activities (user_id, activity_at DESC);
-
--- Follow-ups: assigned_to + status + due_at, plus partial index for the "open" queue
 CREATE INDEX idx_followups_owner_status_due ON follow_ups (assigned_to, status, due_at);
 CREATE INDEX idx_followups_open_due  ON follow_ups (due_at) WHERE status = 'open' AND deleted_at IS NULL;
 CREATE INDEX idx_followups_lead      ON follow_ups (lead_id);
 CREATE INDEX idx_followups_customer  ON follow_ups (customer_id);
 
--- Tasks / opportunities
+
 CREATE INDEX idx_tasks_owner_status  ON tasks (assigned_to, status, due_date) WHERE deleted_at IS NULL;
 CREATE INDEX idx_opp_owner_stage_close ON opportunities (owner_id, stage_id, expected_close_date) WHERE deleted_at IS NULL;
 CREATE INDEX idx_opp_customer        ON opportunities (customer_id);
 
--- Finance
+
 CREATE INDEX idx_invoices_open_due   ON invoices (due_date) WHERE status IN ('sent','partial','overdue');
 CREATE INDEX idx_payments_paid_at    ON payments (paid_at) WHERE status = 'successful';
 
--- Audit
+
 CREATE INDEX idx_audit_record        ON audit_logs (table_name, record_id);
 CREATE INDEX idx_audit_created       ON audit_logs (created_at DESC);
 CREATE INDEX idx_audit_user          ON audit_logs (user_id);
