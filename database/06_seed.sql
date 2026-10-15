@@ -1,6 +1,5 @@
 -- =====================================================================
--- CRM  |  06_seed.sql  |  Realistic, reproducible test data (setseed)
--- Login for every seeded user:  Password@123
+
 -- =====================================================================
 SELECT set_config('app.skip_audit', 'on', false);
 SELECT setseed(0.42);
