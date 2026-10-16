@@ -120,7 +120,6 @@ SELECT id, CASE WHEN r < 0.20 THEN 1 WHEN r < 0.40 THEN 2 WHEN r < 0.55 THEN 3 W
                 WHEN r < 0.75 THEN 5 WHEN r < 0.90 THEN 6 ELSE 7 END AS target
 FROM (SELECT id, random() AS r FROM leads) q;
 
--- walk every lead through its pipeline so lead_status_history is filled by the trigger
 DO $$
 DECLARE k int;
 BEGIN
