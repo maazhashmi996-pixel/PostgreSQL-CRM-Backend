@@ -148,7 +148,6 @@ UPDATE lead_status_history x
 INSERT INTO lead_tags (lead_id, tag_id)
 SELECT l.id, t.id FROM leads l JOIN tags t ON ((l.id * 13 + t.id * 7) % 10) < 2;
 
--- ---------- activities (1300) ----------
 INSERT INTO activities (lead_id, user_id, type, subject, notes, activity_at, created_at)
 SELECT l.id, l.assigned_to, ty.t,
        CASE ty.t WHEN 'call' THEN (ARRAY['Introductory call','Discovery call','Pricing discussion','Follow-up call'])[1 + g % 4]
