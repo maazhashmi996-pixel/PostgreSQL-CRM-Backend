@@ -72,7 +72,7 @@ CREATE TEMP TABLE seed_ids AS SELECT
   (SELECT array_agg(u.id ORDER BY u.id) FROM users u JOIN roles r ON r.id=u.role_id WHERE r.name IN ('manager','admin')) AS bosses,
   (SELECT array_agg(id ORDER BY id) FROM lead_sources) AS sources;
 
--- ---------- customers (180) ----------
+
 INSERT INTO customers (company_name, email, phone, address, city, country, industry, website, status, account_owner, notes, created_at)
 SELECT a.cp[1 + (i*7) % 24] || ' ' || a.cs[1 + (i*3) % 16],
        'info' || i || '@' || lower(a.cp[1 + (i*7) % 24]) || i || '.com',
