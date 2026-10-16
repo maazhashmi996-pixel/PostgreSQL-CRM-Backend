@@ -40,7 +40,6 @@ CREATE TEMP TABLE seed_arr AS SELECT
 
 CREATE TEMP TABLE seed_h AS SELECT '$2a$10$u0O6xZ8CrrhoabZ7XkNlXuxghhYQbzG0Q5rtsbJyC2VFatNWSKRuy'::text AS h;
 
--- ---------- users: 1 admin, 4 managers, 14 agents, 2 viewers ----------
 INSERT INTO users (role_id, name, email, password_hash, phone, created_at)
 SELECT (SELECT id FROM roles WHERE name='admin'), 'Super Admin', 'admin@crm.com', h, '+92 300 1000000', now() - interval '460 days' FROM seed_h;
 
@@ -73,7 +72,7 @@ CREATE TEMP TABLE seed_ids AS SELECT
   (SELECT array_agg(u.id ORDER BY u.id) FROM users u JOIN roles r ON r.id=u.role_id WHERE r.name IN ('manager','admin')) AS bosses,
   (SELECT array_agg(id ORDER BY id) FROM lead_sources) AS sources;
 
--- ---------- customers (180) ----------
+
 INSERT INTO customers (company_name, email, phone, address, city, country, industry, website, status, account_owner, notes, created_at)
 SELECT a.cp[1 + (i*7) % 24] || ' ' || a.cs[1 + (i*3) % 16],
        'info' || i || '@' || lower(a.cp[1 + (i*7) % 24]) || i || '.com',
@@ -87,7 +86,6 @@ SELECT a.cp[1 + (i*7) % 24] || ' ' || a.cs[1 + (i*3) % 16],
        now() - ((random() * 430)::int || ' days')::interval
 FROM generate_series(1,180) i, seed_arr a, LATERAL (SELECT random() + 0 * i AS r) x;
 
--- ---------- contacts (310): 1 primary per customer + extras ----------
 INSERT INTO contacts (customer_id, name, email, phone, designation, is_primary, created_at)
 SELECT c.id, a.fn[1 + (c.id*3) % 30] || ' ' || a.ln[1 + (c.id*7) % 30], 'primary' || c.id || '@' || split_part(c.email, '@', 2),
        '+92 300 ' || lpad((5000000 + c.id*31)::text, 7, '0'),
@@ -101,7 +99,6 @@ SELECT c.id, a.fn[1 + (g*5) % 30] || ' ' || a.ln[1 + (g*11) % 30], 'contact' || 
 FROM generate_series(1,130) g, seed_arr a
 JOIN LATERAL (SELECT id, email, created_at FROM customers ORDER BY id OFFSET (g*7) % 180 LIMIT 1) c ON true;
 
--- ---------- leads (640, incl. ~16 duplicate e-mails) ----------
 INSERT INTO leads (source_id, status_id, assigned_to, name, email, phone, company_name, priority, estimated_value, notes, created_at)
 SELECT (SELECT sources FROM seed_ids)[1 + floor(random() * 8)::int],
        (SELECT id FROM lead_statuses WHERE name = 'New'),
@@ -123,7 +120,6 @@ SELECT id, CASE WHEN r < 0.20 THEN 1 WHEN r < 0.40 THEN 2 WHEN r < 0.55 THEN 3 W
                 WHEN r < 0.75 THEN 5 WHEN r < 0.90 THEN 6 ELSE 7 END AS target
 FROM (SELECT id, random() AS r FROM leads) q;
 
--- walk every lead through its pipeline so lead_status_history is filled by the trigger
 DO $$
 DECLARE k int;
 BEGIN
