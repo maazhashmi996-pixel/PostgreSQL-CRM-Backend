@@ -169,7 +169,6 @@ FROM generate_series(1,300) g
 CROSS JOIN LATERAL (SELECT (ARRAY['call','email','meeting','note'])[1 + floor(random()*4)::int + 0 * g] AS t) ty
 CROSS JOIN LATERAL (SELECT id, account_owner, created_at FROM customers ORDER BY id OFFSET floor(random() * 180)::int + 0 * g LIMIT 1) c;
 
--- ---------- follow-ups (600) ----------
 INSERT INTO follow_ups (lead_id, customer_id, assigned_to, title, due_at, reminder_at, status, notes, completed_at)
 SELECT CASE WHEN g <= 400 THEN o.id END, CASE WHEN g > 400 THEN o.id END, o.owner,
        (ARRAY['Call back','Send quotation','Demo reminder','Check contract status','Payment reminder'])[1 + g % 5],
