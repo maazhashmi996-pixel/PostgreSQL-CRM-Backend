@@ -40,7 +40,6 @@ CREATE TEMP TABLE seed_arr AS SELECT
 
 CREATE TEMP TABLE seed_h AS SELECT '$2a$10$u0O6xZ8CrrhoabZ7XkNlXuxghhYQbzG0Q5rtsbJyC2VFatNWSKRuy'::text AS h;
 
--- ---------- users: 1 admin, 4 managers, 14 agents, 2 viewers ----------
 INSERT INTO users (role_id, name, email, password_hash, phone, created_at)
 SELECT (SELECT id FROM roles WHERE name='admin'), 'Super Admin', 'admin@crm.com', h, '+92 300 1000000', now() - interval '460 days' FROM seed_h;
 
