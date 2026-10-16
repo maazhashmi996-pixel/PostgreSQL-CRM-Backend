@@ -86,7 +86,6 @@ SELECT a.cp[1 + (i*7) % 24] || ' ' || a.cs[1 + (i*3) % 16],
        now() - ((random() * 430)::int || ' days')::interval
 FROM generate_series(1,180) i, seed_arr a, LATERAL (SELECT random() + 0 * i AS r) x;
 
--- ---------- contacts (310): 1 primary per customer + extras ----------
 INSERT INTO contacts (customer_id, name, email, phone, designation, is_primary, created_at)
 SELECT c.id, a.fn[1 + (c.id*3) % 30] || ' ' || a.ln[1 + (c.id*7) % 30], 'primary' || c.id || '@' || split_part(c.email, '@', 2),
        '+92 300 ' || lpad((5000000 + c.id*31)::text, 7, '0'),
