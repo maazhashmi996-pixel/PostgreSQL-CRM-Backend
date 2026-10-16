@@ -99,7 +99,6 @@ SELECT c.id, a.fn[1 + (g*5) % 30] || ' ' || a.ln[1 + (g*11) % 30], 'contact' || 
 FROM generate_series(1,130) g, seed_arr a
 JOIN LATERAL (SELECT id, email, created_at FROM customers ORDER BY id OFFSET (g*7) % 180 LIMIT 1) c ON true;
 
--- ---------- leads (640, incl. ~16 duplicate e-mails) ----------
 INSERT INTO leads (source_id, status_id, assigned_to, name, email, phone, company_name, priority, estimated_value, notes, created_at)
 SELECT (SELECT sources FROM seed_ids)[1 + floor(random() * 8)::int],
        (SELECT id FROM lead_statuses WHERE name = 'New'),
