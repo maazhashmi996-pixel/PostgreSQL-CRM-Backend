@@ -187,7 +187,7 @@ CROSS JOIN LATERAL (SELECT now() + ((random() * 230 - 200 + 0 * g) || ' days')::
 CROSS JOIN LATERAL (SELECT CASE WHEN d.due < now() THEN (CASE WHEN d.r < 0.55 THEN 'completed' WHEN d.r < 0.70 THEN 'cancelled' ELSE 'open' END)
                                 ELSE (CASE WHEN d.r < 0.90 THEN 'open' ELSE 'cancelled' END) END AS st) s;
 
--- ---------- tasks (300) ----------
+
 INSERT INTO tasks (assigned_to, created_by, lead_id, customer_id, title, description, priority, due_date, status, completed_at, created_at)
 SELECT (SELECT agents FROM seed_ids)[1 + floor(random()*14)::int], (SELECT bosses FROM seed_ids)[1 + floor(random()*5)::int],
        CASE WHEN g % 3 = 0 THEN 1 + (g*7) % 640 END, CASE WHEN g % 3 = 1 THEN 1 + (g*5) % 180 END,
