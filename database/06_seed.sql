@@ -199,7 +199,7 @@ SELECT (SELECT agents FROM seed_ids)[1 + floor(random()*14)::int], (SELECT bosse
 FROM generate_series(1,300) g
 CROSS JOIN LATERAL (SELECT (ARRAY['todo','in_progress','completed','completed','cancelled'])[1 + floor(random()*5)::int + 0 * g] AS st) s;
 
--- ---------- products (36) ----------
+
 INSERT INTO products (name, sku, category, description, price, is_active)
 SELECT c.name || ' - ' || t.tier, c.code || '-' || upper(left(t.tier, 3)) || '-' || lpad((c.n * 10 + t.n)::text, 3, '0'), c.name,
        t.tier || ' tier of ' || lower(c.name), round(c.base * t.mult, 2), random() > 0.05
