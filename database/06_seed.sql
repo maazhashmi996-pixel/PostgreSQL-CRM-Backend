@@ -242,7 +242,7 @@ SELECT o.customer_id, o.id, (ARRAY['draft','sent','sent','accepted','rejected','
        (o.created_at + interval '30 days')::date, o.amount, o.owner_id, o.created_at + interval '2 days'
 FROM (SELECT * FROM opportunities ORDER BY random() LIMIT 60) o;
 
--- ---------- invoices (320) ----------
+-- ----------  (320) ----------
 INSERT INTO invoices (customer_id, opportunity_id, issue_date, due_date, total_amount, status, created_by, created_at)
 SELECT q.customer_id, q.opp, q.issue, q.issue + (ARRAY[15,30,45])[1 + q.id % 3], q.total,
        CASE WHEN q.r < 0.03 THEN 'draft' WHEN q.r < 0.07 THEN 'cancelled' ELSE 'sent' END, q.owner, q.issue::timestamptz
