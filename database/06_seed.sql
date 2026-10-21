@@ -187,7 +187,7 @@ CROSS JOIN LATERAL (SELECT now() + ((random() * 230 - 200 + 0 * g) || ' days')::
 CROSS JOIN LATERAL (SELECT CASE WHEN d.due < now() THEN (CASE WHEN d.r < 0.55 THEN 'completed' WHEN d.r < 0.70 THEN 'cancelled' ELSE 'open' END)
                                 ELSE (CASE WHEN d.r < 0.90 THEN 'open' ELSE 'cancelled' END) END AS st) s;
 
--- ---------- tasks (300) ----------
+
 INSERT INTO tasks (assigned_to, created_by, lead_id, customer_id, title, description, priority, due_date, status, completed_at, created_at)
 SELECT (SELECT agents FROM seed_ids)[1 + floor(random()*14)::int], (SELECT bosses FROM seed_ids)[1 + floor(random()*5)::int],
        CASE WHEN g % 3 = 0 THEN 1 + (g*7) % 640 END, CASE WHEN g % 3 = 1 THEN 1 + (g*5) % 180 END,
@@ -199,7 +199,7 @@ SELECT (SELECT agents FROM seed_ids)[1 + floor(random()*14)::int], (SELECT bosse
 FROM generate_series(1,300) g
 CROSS JOIN LATERAL (SELECT (ARRAY['todo','in_progress','completed','completed','cancelled'])[1 + floor(random()*5)::int + 0 * g] AS st) s;
 
--- ---------- products (36) ----------
+
 INSERT INTO products (name, sku, category, description, price, is_active)
 SELECT c.name || ' - ' || t.tier, c.code || '-' || upper(left(t.tier, 3)) || '-' || lpad((c.n * 10 + t.n)::text, 3, '0'), c.name,
        t.tier || ' tier of ' || lower(c.name), round(c.base * t.mult, 2), random() > 0.05
@@ -207,7 +207,6 @@ FROM (VALUES (1,'Software License','LIC',1200),(2,'Support Plan','SUP',600),(3,'
              (4,'Hardware','HRD',900),(5,'Training','TRN',400),(6,'Cloud Hosting','CLD',300)) c(n,name,code,base)
 CROSS JOIN (VALUES (1,'Basic',1.0),(2,'Standard',1.6),(3,'Pro',2.4),(4,'Enterprise',4.0),(5,'Premium',5.5),(6,'Custom',7.0)) t(n,tier,mult);
 
--- ---------- opportunities (240) ----------
 INSERT INTO opportunities (customer_id, lead_id, owner_id, stage_id, title, amount, expected_close_date, lost_reason, created_at)
 SELECT l.converted_customer_id, l.id, l.assigned_to, st.id, 'Deal - ' || COALESCE(l.company_name, l.name), round((2000 + random()*80000)::numeric, 2),
        (l.converted_at + ((20 + random()*100) || ' days')::interval)::date,
@@ -238,13 +237,12 @@ SELECT o.id, p.id, 1 + floor(random()*9)::int, p.price, (ARRAY[0,0,5,10,15])[1 +
 FROM opportunities o
 CROSS JOIN LATERAL (SELECT id, price FROM products WHERE is_active ORDER BY random() LIMIT 1 + (o.id % 3)) p;
 
--- ---------- quotes (60) ----------
 INSERT INTO quotes (customer_id, opportunity_id, status, valid_until, total_amount, created_by, created_at)
 SELECT o.customer_id, o.id, (ARRAY['draft','sent','sent','accepted','rejected','expired'])[1 + floor(random()*6)::int],
        (o.created_at + interval '30 days')::date, o.amount, o.owner_id, o.created_at + interval '2 days'
 FROM (SELECT * FROM opportunities ORDER BY random() LIMIT 60) o;
 
--- ---------- invoices (320) ----------
+
 INSERT INTO invoices (customer_id, opportunity_id, issue_date, due_date, total_amount, status, created_by, created_at)
 SELECT q.customer_id, q.opp, q.issue, q.issue + (ARRAY[15,30,45])[1 + q.id % 3], q.total,
        CASE WHEN q.r < 0.03 THEN 'draft' WHEN q.r < 0.07 THEN 'cancelled' ELSE 'sent' END, q.owner, q.issue::timestamptz
@@ -260,7 +258,7 @@ FROM (
   CROSS JOIN LATERAL (SELECT id FROM customers ORDER BY id OFFSET floor(random()*180)::int + 0 * g LIMIT 1) c
 ) q ORDER BY q.issue;
 
--- ---------- payments: 0 / 2 partial / 3 full / 2 full payments per invoice, plus failed + pending ----------
+-- ---------- payments: 0 / 2  / 3 full / 2  payments per invoice, plus failed + pending ----------
 INSERT INTO payments (invoice_id, customer_id, amount, payment_method, status, paid_at, reference, created_by)
 SELECT e.id, e.customer_id,
   CASE e.pat
