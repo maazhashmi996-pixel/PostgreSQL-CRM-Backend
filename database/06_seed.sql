@@ -237,7 +237,6 @@ SELECT o.id, p.id, 1 + floor(random()*9)::int, p.price, (ARRAY[0,0,5,10,15])[1 +
 FROM opportunities o
 CROSS JOIN LATERAL (SELECT id, price FROM products WHERE is_active ORDER BY random() LIMIT 1 + (o.id % 3)) p;
 
--- ---------- quotes (60) ----------
 INSERT INTO quotes (customer_id, opportunity_id, status, valid_until, total_amount, created_by, created_at)
 SELECT o.customer_id, o.id, (ARRAY['draft','sent','sent','accepted','rejected','expired'])[1 + floor(random()*6)::int],
        (o.created_at + interval '30 days')::date, o.amount, o.owner_id, o.created_at + interval '2 days'
