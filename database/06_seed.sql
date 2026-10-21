@@ -207,7 +207,6 @@ FROM (VALUES (1,'Software License','LIC',1200),(2,'Support Plan','SUP',600),(3,'
              (4,'Hardware','HRD',900),(5,'Training','TRN',400),(6,'Cloud Hosting','CLD',300)) c(n,name,code,base)
 CROSS JOIN (VALUES (1,'Basic',1.0),(2,'Standard',1.6),(3,'Pro',2.4),(4,'Enterprise',4.0),(5,'Premium',5.5),(6,'Custom',7.0)) t(n,tier,mult);
 
--- ----------  (240) ----------
 INSERT INTO opportunities (customer_id, lead_id, owner_id, stage_id, title, amount, expected_close_date, lost_reason, created_at)
 SELECT l.converted_customer_id, l.id, l.assigned_to, st.id, 'Deal - ' || COALESCE(l.company_name, l.name), round((2000 + random()*80000)::numeric, 2),
        (l.converted_at + ((20 + random()*100) || ' days')::interval)::date,
