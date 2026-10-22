@@ -258,7 +258,6 @@ FROM (
   CROSS JOIN LATERAL (SELECT id FROM customers ORDER BY id OFFSET floor(random()*180)::int + 0 * g LIMIT 1) c
 ) q ORDER BY q.issue;
 
--- ---------- payments: 0 / 2  / 3 full / 2  payments  invoice,   + pending ----------
 INSERT INTO payments (invoice_id, customer_id, amount, payment_method, status, paid_at, reference, created_by)
 SELECT e.id, e.customer_id,
   CASE e.pat
@@ -279,7 +278,7 @@ FROM invoices i WHERE i.status NOT IN ('draft','cancelled') ORDER BY i.id LIMIT 
 
 CALL mark_overdue_invoices();
 
--- ---------- scores, sample audit trail, statistics ----------
+-- ---------- scores,   , statistics ----------
 UPDATE leads SET score = calculate_lead_score(id);
 
 SELECT set_config('app.skip_audit', 'off', false);
