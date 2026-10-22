@@ -278,7 +278,7 @@ FROM invoices i WHERE i.status NOT IN ('draft','cancelled') ORDER BY i.id LIMIT 
 
 CALL mark_overdue_invoices();
 
--- ---------- scores,  audit trail, statistics ----------
+-- ---------- scores,  audit , statistics ----------
 UPDATE leads SET score = calculate_lead_score(id);
 
 SELECT set_config('app.skip_audit', 'off', false);
