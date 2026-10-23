@@ -1,4 +1,4 @@
--- Every query runs as-is against the seeded database.
+-- Every the seeded database.
 -- =====================================================================
 
 -- ============ JOINS ============
