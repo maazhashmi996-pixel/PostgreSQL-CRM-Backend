@@ -1,4 +1,4 @@
--- 30+  SQL practice queries, grouped by concept (requirement #21).
+-- 30+  SQL practice queries, #21).
 -- Every query runs as-is against the seeded database.
 -- =====================================================================
 
