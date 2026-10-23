@@ -1,6 +1,3 @@
--- =====================================================================
--- CRM | 07_practice_queries.sql
--- 30+ advanced SQL practice queries, grouped by concept (requirement #21).
 -- Every query runs as-is against the seeded database.
 -- =====================================================================
 
