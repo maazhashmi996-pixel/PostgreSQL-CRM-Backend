@@ -1,6 +1,5 @@
--- =====================================================================
 
--- ============ JOINS ============
+-- ============  ============
 
 -- 1. INNER JOIN: leads with their source and current status
 SELECT l.name, ls.name AS source, st.name AS status
