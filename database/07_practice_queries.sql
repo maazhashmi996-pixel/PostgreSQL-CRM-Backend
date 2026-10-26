@@ -1,7 +1,5 @@
 
--- ============  ============
-
--- 1. INNER JOIN: leads with their source and current status
+-- 1.  JOIN: leads with their source and current status
 SELECT l.name, ls.name AS source, st.name AS status
 FROM leads l JOIN lead_sources ls ON ls.id = l.source_id JOIN lead_statuses st ON st.id = l.status_id
 LIMIT 20;
