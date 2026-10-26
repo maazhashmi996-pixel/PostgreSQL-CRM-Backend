@@ -1,5 +1,3 @@
--- 30+  SQL practice queries, #21).
--- Every query runs as-is against the seeded database.
 -- =====================================================================
 
 -- ============ JOINS ============
